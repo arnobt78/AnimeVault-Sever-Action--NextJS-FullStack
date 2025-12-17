@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+// Next.js 14 App Router - Root Layout Component
+// This file defines the root layout that wraps all pages in the application
+import type { Metadata, Viewport } from "next";
+// Next.js font optimization - automatically optimizes and self-hosts Google Fonts
 import { DM_Sans } from "next/font/google";
 
 import Hero from "@/components/Hero";
@@ -6,13 +9,118 @@ import Footer from "@/components/Footer";
 
 import "./globals.css";
 
+// Configure DM Sans font with Latin subset
+// Next.js will automatically optimize this font and add it to the page
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
+// Comprehensive SEO metadata configuration
+// This metadata object is used by Next.js to generate <head> tags for SEO optimization
 export const metadata: Metadata = {
-  title: "Anime Vault",
-  description: "Your favorite anime, all in one place.",
+  // Base URL for all relative URLs in metadata (Open Graph, Twitter cards, etc.)
+  metadataBase: new URL("https://anime-lover.vercel.app"),
+  // Title configuration with template support
+  // template allows child pages to set their own title that will be appended
+  title: {
+    default: "Anime Vault - Explore The Diverse Realms of Anime Magic",
+    template: "%s | Anime Vault", // Example: "About | Anime Vault"
+  },
+  description:
+    "Discover and explore your favorite anime with Anime Vault. A modern, fully server-rendered anime listing and browsing platform featuring infinite scroll, real-time data from Shikimori API, and beautiful animations. Browse popular anime, view ratings, episodes, and more.",
+  // SEO keywords for search engine optimization
+  keywords: [
+    "anime",
+    "anime list",
+    "anime browser",
+    "anime database",
+    "anime vault",
+    "japanese animation",
+    "anime discovery",
+    "anime ratings",
+    "anime episodes",
+    "shikimori",
+    "anime API",
+    "anime streaming",
+    "anime catalog",
+    "anime search",
+    "popular anime",
+    "anime recommendations",
+    "Next.js",
+    "React",
+    "Server Actions",
+  ],
+  authors: [
+    {
+      name: "Arnob Mahmud",
+      url: "https://arnob-mahmud.vercel.app/",
+    },
+  ],
+  creator: "Arnob Mahmud",
+  publisher: "Arnob Mahmud",
+  // Robots meta tags - controls how search engines crawl and index the site
+  robots: {
+    index: true, // Allow indexing
+    follow: true, // Follow links
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1, // Unlimited video preview
+      "max-image-preview": "large", // Large image previews
+      "max-snippet": -1, // Unlimited text snippets
+    },
+  },
+  // Open Graph metadata for rich social media previews (Facebook, LinkedIn, etc.)
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://anime-lover.vercel.app",
+    siteName: "Anime Vault",
+    title: "Anime Vault - Explore The Diverse Realms of Anime Magic",
+    description:
+      "Discover and explore your favorite anime with Anime Vault. Browse popular anime, view ratings, episodes, and more with a modern, performant interface.",
+    images: [
+      {
+        url: "/anime.png",
+        width: 1200,
+        height: 630,
+        alt: "Anime Vault - Explore The Diverse Realms of Anime Magic",
+      },
+    ],
+  },
+  // Twitter Card metadata for rich Twitter previews
+  twitter: {
+    card: "summary_large_image",
+    title: "Anime Vault - Explore The Diverse Realms of Anime Magic",
+    description:
+      "Discover and explore your favorite anime with Anime Vault. Browse popular anime, view ratings, episodes, and more.",
+    images: ["/anime.png"],
+    creator: "@arnobt78",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
+  manifest: "/site.webmanifest",
+  category: "entertainment",
+  classification: "Anime Discovery Platform",
+  other: {
+    "theme-color": "#0F1117",
+    "color-scheme": "dark",
+  },
 };
 
+// Viewport configuration for responsive design and mobile optimization
+export const viewport: Viewport = {
+  width: "device-width", // Use device width for responsive layout
+  initialScale: 1, // No initial zoom
+  maximumScale: 5, // Allow zoom up to 5x for accessibility
+  userScalable: true, // Allow user to zoom
+  themeColor: "#0F1117", // Browser theme color (dark background)
+  colorScheme: "dark", // Prefer dark mode
+};
+
+// Root Layout Component - wraps all pages in the app
+// This is a Server Component by default in Next.js 14 App Router
 export default function RootLayout({
   children,
 }: {
@@ -20,9 +128,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      {/* Apply optimized font class to body */}
       <body className={dmSans.className}>
+        {/* Main container with max-width and dark background */}
         <main className="max-w-7xl mx-auto bg-[#0F1117]">
           <Hero />
+          {/* Page content is injected here via children prop */}
           {children}
           <Footer />
         </main>

@@ -1,24 +1,29 @@
+// AnimeCard Component - Displays individual anime information
 import Image from "next/image";
 
 import { MotionDiv } from "./Motion";
 
+// Animation stagger delay in seconds - creates cascading animation effect
 const stagger = 0.25;
 
+// Framer Motion animation variants
+// Defines the animation states for the card entrance
 const variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+  hidden: { opacity: 0 }, // Initial state (invisible)
+  visible: { opacity: 1 }, // Final state (visible)
 };
 
+// TypeScript interface defining the structure of anime data from API
 export interface AnimeProp {
   id: string;
   name: string;
   image: {
-    original: string;
+    original: string; // Image URL path (relative to shikimori.one domain)
   };
-  kind: string;
-  episodes: number;
-  episodes_aired: number;
-  score: string;
+  kind: string; // Type of anime (TV, Movie, OVA, etc.)
+  episodes: number; // Total planned episodes
+  episodes_aired: number; // Episodes that have actually aired
+  score: string; // User rating score
 }
 
 interface Prop {
@@ -26,25 +31,34 @@ interface Prop {
   index: number;
 }
 
+/**
+ * AnimeCard Component
+ * Displays a single anime card with image, title, type, episodes, and rating
+ * 
+ * @param anime - Anime data object
+ * @param index - Index for staggered animation timing
+ */
 function AnimeCard({ anime, index }: Prop) {
   return (
     <MotionDiv
       variants={variants}
-      initial="hidden"
-      animate="visible"
+      initial="hidden" // Start invisible
+      animate="visible" // Animate to visible
       transition={{
-        delay: index * stagger,
-        ease: "easeInOut",
-        duration: 0.5,
+        delay: index * stagger, // Staggered delay based on position
+        ease: "easeInOut", // Smooth easing function
+        duration: 0.5, // Animation duration in seconds
       }}
-      viewport={{ amount: 0 }}
+      viewport={{ amount: 0 }} // Trigger when element enters viewport
       className="max-w-sm rounded relative w-full"
     >
+      {/* Image container with fixed viewport height */}
       <div className="relative w-full h-[37vh]">
+        {/* Next.js Image component with automatic optimization */}
         <Image
           src={`https://shikimori.one${anime.image.original}`}
           alt={anime.name}
-          fill
+          fill // Fills parent container (requires relative parent)
           className="rounded-xl"
         />
       </div>
@@ -68,6 +82,7 @@ function AnimeCard({ anime, index }: Prop) {
               height={20}
               className="object-contain"
             />
+            {/* Fallback to episodes_aired if episodes is not available */}
             <p className="text-base text-white font-bold">
               {anime.episodes || anime.episodes_aired}
             </p>

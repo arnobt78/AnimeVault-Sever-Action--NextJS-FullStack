@@ -1,6 +1,6 @@
 {
-  "name": "anime_vault",
-  "version": "0.1.0",
+  "name": "anime-vault",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
